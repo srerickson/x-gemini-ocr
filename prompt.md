@@ -1,47 +1,53 @@
-Generate csv table for the table in the uploaded PDF.
+Generate a csv table from contents of the uploaded document. A PDF and JPG
+versions of the same document are provided..
 
-The table must contain these exact columns: 
+The resulting csv must contain these exact columns: 
 - cat_no: (appears as "Cat Nos") values are strings like "FB1003" or "FB3042"
-- matrix_no: (appears as "Matrix No.") values are string like "CA14825-1" or "W142950"
+- matrix_no: (appears as "Matrix No.") values are string like "CA14825-1" or
+  "W142950"
 - date: (appears as "Recorded") values have the format DD.MM.YY.
-- title: a record title, such as "I'm Sittin' High on a Hill Top, ft (v) (G. Kahn, A.Johnston)"
+- title: a record title, such as "I'm Sittin' High on a Hill Top, ft (v) (G.
+  Kahn, A.Johnston)"
 - artist: for example "The YACHT CLUB BOYS (Adler, Kely, Kem, Manni)"
 - notes: various notes that sometimes appear in the cat_no column
 
-Please follow these critical formatting rules to ensure accuracy:
+## Input document structure
 
-- The title and artist appear together in the same vertical column in the PDF.
-  Text that looks like artist names is sometimes included in the title value but
-  these are credits associated the title. To disambiguate titles and artists:
-  The artist will appear first followed by a series of titles. There is always
-  empty space above each artist/titles block. When there is no empty space and
-  you see text that looks like a name, the name is actually part of a title.
-- The title and artist can span multiple lines. Artist names spanning multiple
-  lines are indented but titles are not.
-- Notes sometimes appear in the "Cat Nos" column (the first column). Generally,
-  any text that does not look like a Cat No ("FB1003" or "FB3042") is a note for
-  the preceding Cat No.
-- When a Cat No appears to be missing, repeat the previous value. 
-- The csv output should always use quotes for the title and artist
-- cat_no, matrix_no, date, title, and artists should never be empty. If a title
-  or artist appears to be empty, reconsider instructions to disambiguate titles
-  and artists. Go back and check if there is text in the PDF that is not
-  included in the csv output. If you still can't determine the value, leave it
-  empty in the csv.
-- Include all titles and artists from the PDF in the output.
+The title and artist appear together in the same column of the document. The
+title may include text that looks like artist names but is actually part of the
+credits associated with the title. 
 
-Here are example artist names (some span multiple lines with indentation in the pdf)
+To disambiguate titles and artists: 
+  - The artist will appear first followed by a series of titles.
+  - The artist names often include ALL CAPS sequences (e.g., the last name). 
+  - There is usually empty space above each artist/titles block. If there is no
+    empty space and you see text that looks like a name, the name may be part of
+    a title.
+  - The title and artist can span multiple lines. Artist names spanning multiple
+    lines are indented but titles are not.
 
-- HILDEGARDE - The Irresistible Singer, with Orchestra
-- The B.B.C. DANCE ORCHESTRA, directed by Henry HALL
-- Les ALLEN and His CANADIAN BACHELORS with Novelty Accomp.
-- MASSED BANDS, ROYAL MARINES (Portsmouth) conductor, Bandmaster G.C. KEEN
-- FLANAGAN and ALLEN - The "Oi" comedians
+Notes sometimes appear in the cat_no column (the first column). Generally, any
+text that does not look like a cat_no ("FB1003" or "FB3042") is a note for the
+previous cat_no.
 
-Here are example titles (some span multiple lines):
+# Additional output requirements
+When a cat_no appears to be missing, repeat the previous value. 
 
-- The Snowy Breasted Pearl (S.E. De Vere, J.Robinson) Sam CARSON, baritone
-  (=Dr.Griffiths, M.D.) with violin, cello and the Compton theatre organ in
-  Studio 1A Abbey Road, NW
-- A Beautiful Lady in Blue (S. Lewis, J.F. Coots)
-- London Pride - Part. 1 Cockneys at Heart (A.A.Thomson, Ashley, Sterne)
+The csv output should always use quotes for the title and artist
+
+cat_no, matrix_no, date, title, and artists should never be empty. If a title or
+artist appears to be empty, reconsider instructions to disambiguate titles and
+artists. Go back and check if there is text in the input that is not included in
+the csv output. If you still can't determine the value, leave it empty in the
+csv.
+
+Include all titles and artists from the input in the output.
+
+Wrap generated csv in a markdown code block like this:
+
+```csv
+"cat_no","matrix_no","date","title","artist","notes"
+"FB1000","CA14826-1","14.12.34","I'm In Love, ft. (Simon, Mysels) (v) Harry Jacobson","Carroll GIBBONS and The SAVOY HOTEL ORPHEANS",""
+"FB1000","CA14824-1","14.12.34","Dancing on a Dime, ft (Sievier, Ramsay) (v) Anne Lenner","Carroll GIBBONS and The SAVOY HOTEL ORPHEANS",""
+```
+

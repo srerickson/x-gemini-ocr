@@ -7,6 +7,7 @@ wheels/
 *.egg-info
 result/
 **.pdf
+**.jpg
 **.jsonl
-# Virtual environments
-.venv
+.claude
+.env
